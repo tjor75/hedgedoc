@@ -3,11 +3,13 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import React, { Fragment, useMemo } from 'react'
+import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { NoteCardProps } from './pinned-note-card'
 import { PinnedNoteCard } from './pinned-note-card'
 import { Trans, useTranslation } from 'react-i18next'
 import { NoteType } from '@hedgedoc/commons'
+import { Caret } from './caret'
+import styles from './pinned-notes.module.css'
 
 const mockListPinnedNotes: NoteCardProps[] = [
   {
@@ -74,9 +76,47 @@ const mockListPinnedNotes: NoteCardProps[] = [
 
 export const PinnedNotes: React.FC = () => {
   useTranslation()
+  const scrollboxRef = useRef<HTMLDivElement>(null)
+  const [enableScrollLeft, setEnableScrollLeft] = useState(false)
+  const [enableScrollRight, setEnableScrollRight] = useState(true)
 
-  const cards = useMemo(() => {
-    return mockListPinnedNotes.map((note: NoteCardProps) => <PinnedNoteCard key={note.id} {...note} />)
+  const pinnedNotes = useMemo(() => {
+    return mockListPinnedNotes
+  }, [])
+
+  const leftClick = useCallback(() => {
+    if (!scrollboxRef.current) {
+      return
+    }
+    scrollboxRef.current.scrollBy({
+      left: -400,
+      behavior: 'smooth'
+    })
+  }, [])
+  const rightClick = useCallback(() => {
+    if (!scrollboxRef.current) {
+      return
+    }
+    scrollboxRef.current.scrollBy({
+      left: 400,
+      behavior: 'smooth'
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!scrollboxRef.current) {
+      return
+    }
+    const scrollbox = scrollboxRef.current
+    const scrollHandler = () => {
+      setEnableScrollLeft(scrollbox.scrollLeft > 0)
+      setEnableScrollRight(Math.ceil(scrollbox.scrollLeft + scrollbox.clientWidth) < scrollbox.scrollWidth)
+    }
+    scrollbox.addEventListener('scroll', scrollHandler)
+    scrollHandler()
+    return () => {
+      scrollbox.removeEventListener('scroll', scrollHandler)
+    }
   }, [])
 
   return (
@@ -84,7 +124,15 @@ export const PinnedNotes: React.FC = () => {
       <h2 className={'mb-2'}>
         <Trans i18nKey={'explore.pinnedNotes.title'} />
       </h2>
-      <ul className={'d-block mx-2 py-2 mb-5 d-flex gap-2 w-100 overflow-x-auto'}>{cards}</ul>
+      <div className={'d-flex flex-row gap-2 align-items-center mb-4'}>
+        <Caret active={enableScrollLeft} left={true} onClick={leftClick} />
+        <div className={styles.scrollbox} ref={scrollboxRef}>
+          {pinnedNotes.map((note: NoteCardProps) => (
+            <PinnedNoteCard key={note.id} {...note} />
+          ))}
+        </div>
+        <Caret active={enableScrollRight} left={false} onClick={rightClick} />
+      </div>
     </Fragment>
   )
 }
