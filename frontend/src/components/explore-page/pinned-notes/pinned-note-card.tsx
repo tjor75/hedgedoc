@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import React, { type MouseEvent, useMemo } from 'react'
-import { Badge, Card } from 'react-bootstrap'
-import { DateTime } from 'luxon'
+import { Card } from 'react-bootstrap'
 import { BookmarkStarFill as IconPinned } from 'react-bootstrap-icons'
 import styles from './pinned-note-card.module.scss'
 import { useCallback } from 'react'
@@ -18,14 +17,14 @@ import type { NoteEntry } from '../../../api/explore/types'
 import { setPinnedState } from '../../../api/me'
 import { useUiNotifications } from '../../notifications/ui-notification-boundary'
 import { NoteTags } from '../note-tags/note-tags'
+import { formatChangedAt } from '../../../utils/format-date'
 
 export const PinnedNoteCard: React.FC<NoteEntry> = ({ title, lastChangedAt, type, primaryAddress, tags }) => {
   const { showErrorNotification } = useUiNotifications()
   const router = useRouter()
   const labelTag = useTranslatedText('explore.filters.byTag')
   const labelUnpinNote = useTranslatedText('explore.pinnedNotes.unpin')
-  const lastVisitedString = useMemo(() => DateTime.fromISO(lastVisited).toRelative(), [lastVisited])
-  // const createdString = DateTime.fromISO(created).toFormat('DDDD T')
+  const lastVisitedString = useMemo(() => formatChangedAt(lastChangedAt), [lastChangedAt])
   const onClickUnpin = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       event.preventDefault()
