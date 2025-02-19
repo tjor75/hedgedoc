@@ -7,7 +7,8 @@ import { DeleteApiRequestBuilder } from '../common/api-request-builder/delete-ap
 import { GetApiRequestBuilder } from '../common/api-request-builder/get-api-request-builder'
 import { PostApiRequestBuilder } from '../common/api-request-builder/post-api-request-builder'
 import type { MediaUpload } from '../media/types'
-import type { ChangeDisplayNameDto, LoginUserInfo } from './types'
+import type { ChangeDisplayNameDto, ChangePinStatusDto, LoginUserInfo } from './types'
+import { PutApiRequestBuilder } from '../common/api-request-builder/put-api-request-builder'
 
 /**
  * Returns metadata about the currently signed-in user from the API.
@@ -52,4 +53,18 @@ export const updateDisplayName = async (displayName: string): Promise<void> => {
 export const getMyMedia = async (): Promise<MediaUpload[]> => {
   const response = await new GetApiRequestBuilder<MediaUpload[]>('me/media').sendRequest()
   return response.asParsedJsonObject()
+}
+
+/**
+ * Retrieves a list of media belonging to the user.
+ *
+ * @return List of media object information.
+ * @throws {Error} when the api request wasn't successful.
+ */
+export const setPinnedState = async (primaryAddress: string, isPinned: boolean): Promise<void> => {
+  await new PutApiRequestBuilder<void, ChangePinStatusDto>(`me/pin/${primaryAddress}`)
+    .withJsonBody({
+      isPinned
+    })
+    .sendRequest()
 }

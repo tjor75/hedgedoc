@@ -10,25 +10,17 @@ import { BookmarkStarFill as IconPinned } from 'react-bootstrap-icons'
 import styles from './pinned-note-card.module.scss'
 import { useCallback } from 'react'
 import { NoteTypeIcon } from '../../common/note-type-icon/note-type-icon'
-import type { NoteType } from '@hedgedoc/commons'
 import { UiIcon } from '../../common/icons/ui-icon'
 import Link from 'next/link'
 import { useTranslatedText } from '../../../hooks/common/use-translated-text'
 import { useRouter } from 'next/navigation'
+import type { NoteEntry } from '../../../api/explore/types'
+import { setPinnedState } from '../../../api/me'
+import { useUiNotifications } from '../../notifications/ui-notification-boundary'
 import { NoteTags } from '../note-tags/note-tags'
 
-export interface NoteCardProps {
-  title: string
-  id: string
-  type: NoteType
-  lastVisited: string
-  created: string
-  pinned: boolean
-  tags: string[]
-  primaryAddress: string
-}
-
-export const PinnedNoteCard: React.FC<NoteCardProps> = ({ title, id, lastVisited, type, primaryAddress, tags }) => {
+export const PinnedNoteCard: React.FC<NoteEntry> = ({ title, lastChangedAt, type, primaryAddress, tags }) => {
+  const { showErrorNotification } = useUiNotifications()
   const router = useRouter()
   const labelTag = useTranslatedText('explore.filters.byTag')
   const labelUnpinNote = useTranslatedText('explore.pinnedNotes.unpin')
@@ -37,9 +29,11 @@ export const PinnedNoteCard: React.FC<NoteCardProps> = ({ title, id, lastVisited
   const onClickUnpin = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       event.preventDefault()
-      alert(`UnFav ${id}`)
+      setPinnedState(primaryAddress, false).catch(
+        showErrorNotification('explore.pinnedNotes.unpinError', { name: primaryAddress })
+      )
     },
-    [id]
+    [primaryAddress, showErrorNotification]
   )
 
   const onClickTag = useCallback(

@@ -13,3 +13,7 @@ export interface LoginUserInfo extends UserInfo {
 export interface ChangeDisplayNameDto {
   displayName: string
 }
+
+export interface ChangePinStatusDto {
+  isPinned: boolean
+}

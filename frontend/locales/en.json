@@ -15,7 +15,9 @@
     "pinnedNotes": {
       "title": "Pinned notes",
       "unpin": "Click to unpin this note",
-      "empty": "You don't have any pinned notes yet."
+      "empty": "You don't have any pinned notes yet.",
+      "pinError": "Could not pin note {{name}}.",
+      "unpinError": "Could not unpin note {{name}}."
     },
     "modes": {
       "my": "My notes",
