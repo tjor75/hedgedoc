@@ -15,6 +15,7 @@ import { UiIcon } from '../../common/icons/ui-icon'
 import Link from 'next/link'
 import { useTranslatedText } from '../../../hooks/common/use-translated-text'
 import { useRouter } from 'next/navigation'
+import { NoteTags } from '../note-tags/note-tags'
 
 export interface NoteCardProps {
   title: string
@@ -51,14 +52,6 @@ export const PinnedNoteCard: React.FC<NoteCardProps> = ({ title, id, lastVisited
     [router]
   )
 
-  const tagsChips = useMemo(() => {
-    return tags.map((tag) => (
-      <Badge key={tag} bg={'secondary'} pill={true} className={'me-1'} onClick={onClickTag(tag)} title={labelTag}>
-        {tag}
-      </Badge>
-    ))
-  }, [tags, onClickTag, labelTag])
-
   return (
     <Card className={`${styles.card}`} as={Link} href={`/n/${primaryAddress}`}>
       <Card.Body className={`${styles.cardBody}`}>
@@ -73,7 +66,9 @@ export const PinnedNoteCard: React.FC<NoteCardProps> = ({ title, id, lastVisited
           </span>
         </Card.Title>
         <Card.Subtitle className='mb-2 text-muted'>{lastVisitedString}</Card.Subtitle>
-        <div>{tagsChips}</div>
+        <div>
+          <NoteTags tags={tags} onClickTag={onClickTag} hoverLabel={labelTag} />
+        </div>
       </Card.Body>
     </Card>
   )
