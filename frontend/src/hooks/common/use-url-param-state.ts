@@ -62,13 +62,16 @@ export const useUrlParamState = <T extends string | null = string>(
     if (!searchParamsReact) {
       return
     }
-    const newValue = searchParamsReact.get(paramName) as T
+    let newValue = searchParamsReact.get(paramName) as T
+    if (newValue === null) {
+      newValue = typeof defaultValue === 'function' ? defaultValue() : defaultValue
+    }
     if (newValue === lastSetValue.current) {
       return
     }
     lastSetValue.current = newValue
     setValue(newValue)
-  }, [paramName, searchParamsReact])
+  }, [paramName, searchParamsReact, defaultValue])
 
   return [value, onUpdate]
 }
