@@ -8,7 +8,7 @@ import { Type } from 'class-transformer';
 import { IsDate, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 import { UserInfoDto } from '../users/user-info.dto';
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 
 export class EditDto extends BaseDto {
   /**

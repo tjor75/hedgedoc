@@ -5,7 +5,7 @@
  */
 import { IsOptional, IsString } from 'class-validator';
 
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 
 export class PendingUserConfirmationDto extends BaseDto {
   @IsString()

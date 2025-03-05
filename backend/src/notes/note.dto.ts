@@ -8,7 +8,7 @@ import { Type } from 'class-transformer';
 import { IsArray, IsString, ValidateNested } from 'class-validator';
 
 import { EditDto } from '../revisions/edit.dto';
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 import { NoteMetadataDto } from './note-metadata.dto';
 
 export class NoteDto extends BaseDto {

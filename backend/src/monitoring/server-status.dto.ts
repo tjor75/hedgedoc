@@ -5,7 +5,7 @@
  */
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 
 export class ServerVersion {
   @ApiProperty()

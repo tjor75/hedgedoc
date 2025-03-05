@@ -18,7 +18,7 @@ import { URL } from 'url';
 import { ProviderType } from '../auth/provider-type.enum';
 import { GuestAccess } from '../config/guest_access.enum';
 import { ServerVersion } from '../monitoring/server-status.dto';
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 
 export type AuthProviderTypeWithCustomName =
   | ProviderType.LDAP

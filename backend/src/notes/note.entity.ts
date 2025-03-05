@@ -12,7 +12,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { HistoryEntry } from '../history/history-entry.entity';
 import { MediaUpload } from '../media/media-upload.entity';
 import { NoteGroupPermission } from '../permissions/note-group-permission.entity';
 import { NoteUserPermission } from '../permissions/note-user-permission.entity';
@@ -65,9 +64,6 @@ export class Note {
   @OneToMany((_) => Revision, (revision) => revision.note, { cascade: true })
   revisions: Promise<Revision[]>;
 
-  @OneToMany((_) => HistoryEntry, (historyEntry) => historyEntry.user)
-  historyEntries: Promise<HistoryEntry[]>;
-
   @OneToMany((_) => MediaUpload, (mediaUpload) => mediaUpload.note)
   mediaUploads: Promise<MediaUpload[]>;
 
@@ -101,7 +97,6 @@ export class Note {
     newNote.viewCount = 0;
     newNote.owner = Promise.resolve(owner);
     newNote.revisions = Promise.resolve([]);
-    newNote.historyEntries = Promise.resolve([]);
     newNote.mediaUploads = Promise.resolve([]);
     newNote.version = 2;
     return newNote;

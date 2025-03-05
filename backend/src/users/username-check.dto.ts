@@ -5,7 +5,7 @@
  */
 import { IsBoolean, IsLowercase, IsString } from 'class-validator';
 
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 import { Username } from '../utils/username';
 
 export class UsernameCheckDto extends BaseDto {

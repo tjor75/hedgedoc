@@ -7,7 +7,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsDate, IsLowercase, IsOptional, IsString } from 'class-validator';
 
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 import { Username } from '../utils/username';
 
 export class MediaUploadDto extends BaseDto {

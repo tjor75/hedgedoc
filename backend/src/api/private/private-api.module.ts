@@ -9,7 +9,6 @@ import { ApiTokenModule } from '../../api-token/api-token.module';
 import { AuthModule } from '../../auth/auth.module';
 import { FrontendConfigModule } from '../../frontend-config/frontend-config.module';
 import { GroupsModule } from '../../groups/groups.module';
-import { HistoryModule } from '../../history/history.module';
 import { LoggerModule } from '../../logger/logger.module';
 import { MediaModule } from '../../media/media.module';
 import { NotesModule } from '../../notes/notes.module';
@@ -23,7 +22,6 @@ import { LocalController } from './auth/local/local.controller';
 import { OidcController } from './auth/oidc/oidc.controller';
 import { ConfigController } from './config/config.controller';
 import { GroupsController } from './groups/groups.controller';
-import { HistoryController } from './me/history/history.controller';
 import { MeController } from './me/me.controller';
 import { MediaController } from './media/media.controller';
 import { NotesController } from './notes/notes.controller';
@@ -36,7 +34,6 @@ import { UsersController } from './users/users.controller';
     UsersModule,
     ApiTokenModule,
     FrontendConfigModule,
-    HistoryModule,
     PermissionsModule,
     NotesModule,
     MediaModule,
@@ -48,7 +45,6 @@ import { UsersController } from './users/users.controller';
     ApiTokensController,
     ConfigController,
     MediaController,
-    HistoryController,
     MeController,
     NotesController,
     AliasController,

@@ -17,7 +17,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { BaseDto } from '../../utils/base.dto.';
+import { BaseDto } from '../../utils/base.dto';
 import {
   badRequestDescription,
   conflictDescription,

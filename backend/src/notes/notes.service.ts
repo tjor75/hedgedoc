@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+import { NoteType } from '@hedgedoc/commons';
 import { Optional } from '@mrdrogdrog/optional';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
@@ -20,7 +21,6 @@ import {
 import { NoteEvent, NoteEventMap } from '../events';
 import { Group } from '../groups/group.entity';
 import { GroupsService } from '../groups/groups.service';
-import { HistoryEntry } from '../history/history-entry.entity';
 import { ConsoleLoggerService } from '../logger/console-logger.service';
 import { NoteGroupPermission } from '../permissions/note-group-permission.entity';
 import { RealtimeNoteStore } from '../realtime/realtime-note/realtime-note-store';
@@ -30,6 +30,7 @@ import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
 import { Alias } from './alias.entity';
 import { AliasService } from './alias.service';
+import { NoteExploreEntryDto } from './note-explore-entry.dto';
 import { NoteMetadataDto } from './note-metadata.dto';
 import { NotePermissionsDto } from './note-permissions.dto';
 import { NoteDto } from './note.dto';
@@ -112,10 +113,6 @@ export class NotesService {
     let everyoneAccessLevel;
 
     if (owner) {
-      // When we know an owner, an initial history entry is created
-      newNote.historyEntries = Promise.resolve([
-        HistoryEntry.create(owner, newNote) as HistoryEntry,
-      ]);
       // Use the default access level from the config
       everyoneAccessLevel = this.noteConfig.permissions.default.everyone;
     } else {
@@ -448,6 +445,30 @@ export class NotesService {
       content: await this.getNoteContent(note),
       metadata: await this.toNoteMetadataDto(note),
       editedByAtPosition: [],
+    };
+  }
+
+  /**
+   * @async
+   * Build NoteDto from a note.
+   * @param {Note} note - the note to use
+   * @return {NoteDto} the built NoteDto
+   */
+  async toNoteExploreEntryDto(
+    note: Note,
+    user: User,
+  ): Promise<NoteExploreEntryDto> {
+    const latestRevision = await this.revisionsService.getLatestRevision(note);
+    return {
+      primaryAddress: (await getPrimaryAlias(note)) ?? note.publicId,
+      title: latestRevision.title,
+      type: NoteType.DOCUMENT,
+      tags: (await latestRevision.tags).map((tag) => tag.name),
+      owner: (await note.owner)?.username ?? null,
+      isPinned: ((await user.pinnedNotes) ?? []).some(
+        (aPinnedNote) => aPinnedNote.id === note.id,
+      ),
+      lastChangedAt: latestRevision.createdAt,
     };
   }
 }

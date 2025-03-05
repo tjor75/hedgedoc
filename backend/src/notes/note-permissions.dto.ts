@@ -14,7 +14,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 import { Username } from '../utils/username';
 
 export class NoteUserPermissionEntryDto extends BaseDto {

@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+import { NoteType } from '@hedgedoc/commons';
 import {
   Column,
   CreateDateColumn,
@@ -59,6 +60,9 @@ export class Revision {
     type: 'text',
   })
   content: string;
+
+  @Column()
+  type: NoteType;
 
   /**
    * The length of the note content.

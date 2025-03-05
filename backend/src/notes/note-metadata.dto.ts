@@ -14,7 +14,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 import { AliasDto } from './alias.dto';
 import { NotePermissionsDto } from './note-permissions.dto';
 

@@ -65,8 +65,8 @@ export class User {
   @ManyToMany((_) => Group, (group) => group.members)
   groups: Promise<Group[]>;
 
-  @OneToMany((_) => HistoryEntry, (historyEntry) => historyEntry.user)
-  historyEntries: Promise<HistoryEntry[]>;
+  @OneToMany((_) => Note, (note) => note.owner)
+  pinnedNotes: Promise<Note[]>;
 
   @OneToMany((_) => MediaUpload, (mediaUpload) => mediaUpload.user)
   mediaUploads: Promise<MediaUpload[]>;
@@ -92,7 +92,7 @@ export class User {
     newUser.apiTokens = Promise.resolve([]);
     newUser.identities = Promise.resolve([]);
     newUser.groups = Promise.resolve([]);
-    newUser.historyEntries = Promise.resolve([]);
+    newUser.pinnedNotes = Promise.resolve([]);
     newUser.mediaUploads = Promise.resolve([]);
     newUser.authors = Promise.resolve([]);
     return newUser;

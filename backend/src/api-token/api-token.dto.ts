@@ -6,7 +6,7 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
-import { BaseDto } from '../utils/base.dto.';
+import { BaseDto } from '../utils/base.dto';
 import { TimestampMillis } from '../utils/timestamp';
 
 export class ApiTokenDto extends BaseDto {
